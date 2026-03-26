@@ -28,7 +28,7 @@ class UserService {
         const updateValues = [];
         let paramIndex = 1;
 
-        const allowedFields = ['bio', 'skills', 'location', 'full_name', 'website', 'github', 'twitter', 'gender'];
+        const allowedFields = ['bio', 'skills', 'location', 'full_name', 'website', 'github', 'twitter', 'gender', 'avatar_url'];
 
         for (const field of allowedFields) {
             if (data[field] !== undefined) {

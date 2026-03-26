@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     Star, MapPin, Mail, Link as LinkIcon, Github, Twitter,
-    CheckCircle2, FolderKanban, Code, Loader2, Edit3, Award, Wallet
+    CheckCircle2, FolderKanban, Code, Loader2, Edit3, Award, Wallet, Camera
 } from 'lucide-react';
 import Modal from '../components/Modal';
 import { api } from '../services/api';
@@ -30,6 +30,7 @@ export default function Profile() {
     const [isEditing, setIsEditing] = useState(false);
     const [editForm, setEditForm] = useState(null);
     const [saving, setSaving] = useState(false);
+    const [uploadingAvatar, setUploadingAvatar] = useState(false);
     const [repData, setRepData] = useState({ points: 0, level: 'Beginner' });
     const [wallet, setWallet] = useState({ total_points: 0 });
     const [pointsHistory, setPointsHistory] = useState([]);
@@ -52,7 +53,8 @@ export default function Profile() {
                     completedTasks: u.completed_tasks || 0,
                     projectsContributed: projRes?.data?.length || 0,
                     skills: u.skills || [],
-                    gender: u.gender || ''
+                    gender: u.gender || '',
+                    avatar_url: u.avatar_url || ''
                 });
                 setEditForm({
                     full_name: u.full_name || '', bio: u.bio || '',
@@ -98,6 +100,33 @@ export default function Profile() {
             fetchProfileData();
         } catch (err) { console.error(err); alert('Failed to update profile'); }
         finally { setSaving(false); }
+    };
+
+    const handleAvatarUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploadingAvatar(true);
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const uploadRes = await api.post('/upload', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+
+            if (uploadRes.success && uploadRes.data?.url) {
+                await api.put('/users/profile', { avatar_url: uploadRes.data.url });
+                fetchProfileData(); // Reload profile to show new image
+            } else {
+                alert('Upload failed. Please try again.');
+            }
+        } catch (err) {
+            console.error('Avatar upload failed', err);
+            alert('Failed to upload profile picture.');
+        } finally {
+            setUploadingAvatar(false);
+        }
     };
 
     if (loading) return (
@@ -185,8 +214,18 @@ export default function Profile() {
                         {/* Cover */}
                         <div className="absolute top-0 left-0 w-full h-20" style={{ background: 'var(--grad-primary)' }} />
                         <div className="relative pt-12 pb-5 px-5">
-                            <div className="avatar-gradient h-20 w-20 text-2xl mx-auto mb-3" style={{ border: '3px solid rgba(255,255,255,0.8)', borderRadius: '24px' }}>
-                                {profile.fullName.charAt(0)}
+                            <div className="relative mx-auto mb-3 h-20 w-20 group">
+                                {profile.avatar_url ? (
+                                    <img src={profile.avatar_url.startsWith('http') ? profile.avatar_url : (import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : '') + profile.avatar_url} alt="Avatar" className="h-full w-full object-cover shadow-sm bg-white" style={{ border: '3px solid rgba(255,255,255,0.8)', borderRadius: '24px' }} />
+                                ) : (
+                                    <div className="avatar-gradient h-full w-full flex items-center justify-center text-white text-2xl font-bold shadow-sm" style={{ border: '3px solid rgba(255,255,255,0.8)', borderRadius: '24px' }}>
+                                        {profile.fullName.charAt(0)}
+                                    </div>
+                                )}
+                                <label className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-[24px] opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                                    {uploadingAvatar ? <Loader2 className="animate-spin text-white w-6 h-6" /> : <Camera className="text-white w-6 h-6" />}
+                                    <input type="file" accept="image/*" capture="user" className="hidden" onChange={handleAvatarUpload} disabled={uploadingAvatar} />
+                                </label>
                             </div>
                             <h2 className="font-bold text-lg" style={{ color: 'var(--text-heading)' }}>{profile.fullName}</h2>
                             <p className="text-xs" style={{ color: 'var(--text-muted)' }}>@{profile.username}</p>

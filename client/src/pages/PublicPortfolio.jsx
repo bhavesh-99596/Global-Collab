@@ -56,9 +56,13 @@ export default function PublicPortfolio() {
                     <div className="h-32 bg-gradient-to-r from-blue-600 to-purple-700"></div>
                     <div className="px-6 sm:px-10 pb-8 relative">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end -mt-12 sm:-mt-16 mb-6">
-                            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white bg-blue-100 flex items-center justify-center text-blue-600 text-4xl font-bold shadow-md uppercase">
-                                {(profile.full_name || profile.username).charAt(0)}
-                            </div>
+                            {profile.avatar_url ? (
+                                <img src={profile.avatar_url.startsWith('http') ? profile.avatar_url : (import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : '') + profile.avatar_url} alt="Avatar" className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white object-cover shadow-md bg-white" />
+                            ) : (
+                                <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white bg-blue-100 flex items-center justify-center text-blue-600 text-4xl font-bold shadow-md uppercase">
+                                    {(profile.full_name || profile.username).charAt(0)}
+                                </div>
+                            )}
                             <div className="mt-4 sm:mt-0 flex gap-3">
                                 <button className="px-6 py-2 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition-colors shadow-sm">
                                     {hireText}
