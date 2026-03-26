@@ -70,19 +70,19 @@ export default function Explore() {
     return (
         <div className="space-y-6 animate-fade-in">
             {/* Header */}
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
                 <div>
-                    <h1 className="text-2xl font-bold" style={{ color: 'var(--text-heading)' }}>Explore Developers</h1>
-                    <p className="text-sm mt-0.5" style={{ color: 'var(--text-muted)' }}>Find the perfect team members for your next project.</p>
+                    <h1 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--text-heading)' }}>Explore Developers</h1>
+                    <p className="text-xs sm:text-sm mt-0.5" style={{ color: 'var(--text-muted)' }}>Find the perfect team members for your next project.</p>
                 </div>
-                <button onClick={() => setIsAiModalOpen(true)} className="btn-gradient">
+                <button onClick={() => setIsAiModalOpen(true)} className="btn-gradient w-full sm:w-auto justify-center">
                     <Sparkles size={15} /> AI Team Match
                 </button>
             </div>
 
             {/* Search */}
             <div className="flex gap-4">
-                <div className="relative flex-1 max-w-md">
+                <div className="relative flex-1 max-w-full sm:max-w-md">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2" size={16} style={{ color: 'var(--text-muted)' }} />
                     <input
                         type="text"

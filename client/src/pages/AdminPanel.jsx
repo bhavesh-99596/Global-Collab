@@ -81,7 +81,7 @@ export default function AdminPanel() {
             {/* Header */}
             <div className="flex justify-between items-center">
                 <div>
-                    <h1 className="text-2xl font-bold flex items-center gap-2" style={{ color: 'var(--text-heading)' }}>
+                    <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2" style={{ color: 'var(--text-heading)' }}>
                         <Shield size={24} style={{ color: '#6366f1' }} />
                         Admin Panel
                     </h1>
@@ -108,7 +108,7 @@ export default function AdminPanel() {
             {/* Users Table */}
             <div className="glass-card overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="w-full">
+                    <table className="w-full min-w-[700px]">
                         <thead>
                             <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.3)' }}>
                                 <th className="text-left text-xs font-semibold uppercase tracking-wider px-5 py-3" style={{ color: 'var(--text-muted)' }}>User</th>

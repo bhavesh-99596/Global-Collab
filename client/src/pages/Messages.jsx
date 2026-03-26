@@ -223,8 +223,8 @@ export default function Messages() {
         <div className="animate-fade-in" style={{ height: 'calc(100vh - 8rem)' }}>
             {!activeUserId && !activeProjectId ? (
                 // ----------------- INBOX VIEW -----------------
-                <div className="glass-card h-full flex flex-col p-6 overflow-hidden">
-                    <h2 className="text-2xl font-bold mb-6 flex items-center gap-3" style={{ color: 'var(--text-heading)' }}>
+                <div className="glass-card h-full flex flex-col p-4 sm:p-6 overflow-hidden">
+                    <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-3" style={{ color: 'var(--text-heading)' }}>
                         <MessageSquare style={{ color: '#6366f1' }} /> All Messages
                     </h2>
                     <div className="flex-1 overflow-y-auto w-full max-w-4xl space-y-4 pr-4">
@@ -487,7 +487,7 @@ export default function Messages() {
                         <div className="p-4 px-6 bg-white/20 backdrop-blur-md" style={{ borderTop: '1px solid rgba(255,255,255,0.4)' }}>
                             <div className="w-full">
                                 {/* Quick Replies */}
-                                <div className="flex gap-2 mb-3">
+                                <div className="flex gap-2 mb-3 overflow-x-auto scrollbar-hide">
                                     {['Awesome', 'Great Design', 'Will do!'].map(reply => (
                                         <button key={reply} onClick={() => handleQuickReply(reply)}
                                                 className="text-[12px] font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 bg-white/60 hover:bg-white border border-white/60 shadow-sm transition-all"

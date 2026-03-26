@@ -86,14 +86,14 @@ export default function Tasks() {
     return (
         <div className="space-y-6 animate-fade-in">
             {/* Header */}
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
                 <div>
-                    <h1 className="text-2xl font-bold" style={{ color: 'var(--text-heading)' }}>My Tasks</h1>
-                    <p className="text-sm mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                    <h1 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--text-heading)' }}>My Tasks</h1>
+                    <p className="text-xs sm:text-sm mt-0.5" style={{ color: 'var(--text-muted)' }}>
                         {tasks.length} task{tasks.length !== 1 ? 's' : ''} · Manage and track your work
                     </p>
                 </div>
-                <button onClick={() => openModal()} className="btn-gradient">
+                <button onClick={() => openModal()} className="btn-gradient w-full sm:w-auto justify-center">
                     <Plus size={16} /> New Task
                 </button>
             </div>
@@ -157,7 +157,7 @@ export default function Tasks() {
                                             {task.deadline ? new Date(task.deadline).toLocaleDateString() : '—'}
                                         </td>
                                         <td className="px-4 py-3.5">
-                                            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <div className="flex items-center gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                                                 <button onClick={() => openModal(task)}
                                                     className="p-1.5 rounded-xl hover:bg-white/50 transition-colors"
                                                     style={{ color: 'var(--text-muted)' }}>
@@ -195,7 +195,7 @@ export default function Tasks() {
                                 className={`${inputClass} rounded-2xl resize-none`} rows={2}
                                 placeholder="Task details and requirements" />
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                                 <label className={labelClass} style={{ color: 'var(--text-muted)' }}>Project</label>
                                 <select value={formData.projectId}
@@ -213,7 +213,7 @@ export default function Tasks() {
                                 </select>
                             </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                                 <label className={labelClass} style={{ color: 'var(--text-muted)' }}>Priority</label>
                                 <select value={formData.priority}

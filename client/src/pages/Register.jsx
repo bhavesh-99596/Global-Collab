@@ -55,7 +55,7 @@ export default function Register() {
                 </div>
 
                 {/* Card */}
-                <div className="glass-modal p-8 animate-fade-up">
+                <div className="glass-modal p-6 sm:p-8 animate-fade-up">
                     <h2 className="text-xl font-bold mb-1 text-center" style={{ color: 'var(--text-heading)' }}>Get Started</h2>
                     <p className="text-sm text-center mb-6" style={{ color: 'var(--text-muted)' }}>
                         Already have an account?{' '}
@@ -69,7 +69,7 @@ export default function Register() {
                                 {error}
                             </div>
                         )}
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                                 <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Username</label>
                                 <input id="username" name="username" type="text" required

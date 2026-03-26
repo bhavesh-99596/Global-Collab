@@ -13,7 +13,7 @@ export default function StatsCard({ title, value, icon: Icon, trend, index = 0 }
     const gradient = ICON_GRADIENTS[index % ICON_GRADIENTS.length];
 
     return (
-        <div className="glass-card p-5 animate-fade-up">
+        <div className="glass-card p-4 sm:p-5 animate-fade-up">
             <div className="flex items-start justify-between mb-3">
                 <div>
                     <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: 'var(--text-muted)' }}>

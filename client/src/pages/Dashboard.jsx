@@ -75,21 +75,21 @@ export default function Dashboard() {
     return (
         <div className="space-y-6 animate-fade-in">
             {/* Header */}
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-2xl">👋</span>
-                        <h1 className="text-2xl font-bold" style={{ color: 'var(--text-heading)' }}>
+                        <span className="text-xl sm:text-2xl">👋</span>
+                        <h1 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--text-heading)' }}>
                             Welcome back, <span style={{ background: 'var(--grad-primary)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                                 {user?.full_name || user?.username || 'Developer'}
                             </span>
                         </h1>
                     </div>
-                    <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Here's what's happening with your projects today.</p>
+                    <p className="text-xs sm:text-sm" style={{ color: 'var(--text-muted)' }}>Here's what's happening with your projects today.</p>
                 </div>
                 <Link
                     to="/projects"
-                    className="btn-gradient flex items-center gap-2"
+                    className="btn-gradient flex items-center gap-2 w-full sm:w-auto justify-center sm:justify-start"
                 >
                     <Plus size={16} />
                     New Project
@@ -97,7 +97,7 @@ export default function Dashboard() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 stagger">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 stagger">
                 {stats.map((stat, i) => (
                     <StatsCard key={i} {...stat} index={i} />
                 ))}
@@ -158,7 +158,7 @@ export default function Dashboard() {
                     {/* Quick Actions */}
                     <div className="glass-card p-5">
                         <h3 className="section-heading">Quick Actions</h3>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                             <Link to="/tasks"
                                 className="glass-card-strong p-4 rounded-2xl flex flex-col items-center gap-2 hover:-translate-y-1 transition-all cursor-pointer text-center"
                                 style={{ border: '1px solid rgba(255,255,255,0.6)', textDecoration: 'none' }}>

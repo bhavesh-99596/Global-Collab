@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Bell, Search, LogOut, User, Settings, ChevronDown } from 'lucide-react';
+import { Bell, Search, LogOut, User, Settings, ChevronDown, Menu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { io } from 'socket.io-client';
 
-export default function TopNav() {
+export default function TopNav({ onMenuToggle }) {
     const { user, logout } = useAuth();
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [showNotifications, setShowNotifications] = useState(false);
@@ -72,23 +72,36 @@ export default function TopNav() {
     };
 
     return (
-        <header className="glass-navbar fixed top-0 right-0 left-64 z-10 flex items-center justify-between px-6 py-3">
-            {/* Search Bar */}
-            <div className="flex-1 max-w-md">
-                <div className="relative">
-                    <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Search className="h-4 w-4" style={{ color: 'var(--text-muted)' }} />
-                    </span>
-                    <input
-                        type="text"
-                        className="glass-input block w-full pl-10 pr-4 py-2 text-sm placeholder:text-gray-400"
-                        placeholder="Search projects, tasks, people…"
-                    />
+        <header className="glass-navbar fixed top-0 right-0 left-0 md:left-64 z-10 flex items-center justify-between px-3 sm:px-6 py-3 transition-[left] duration-300">
+            {/* Left side: Hamburger + Search */}
+            <div className="flex items-center gap-3 flex-1">
+                {/* Hamburger menu - mobile only */}
+                <button
+                    onClick={onMenuToggle}
+                    className="p-2 rounded-xl hover:bg-white/40 transition-colors md:hidden"
+                    style={{ color: 'var(--text-heading)' }}
+                    aria-label="Toggle menu"
+                >
+                    <Menu className="h-5 w-5" />
+                </button>
+
+                {/* Search Bar - hidden on small mobile, shown on sm+ */}
+                <div className="hidden sm:block flex-1 max-w-md">
+                    <div className="relative">
+                        <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <Search className="h-4 w-4" style={{ color: 'var(--text-muted)' }} />
+                        </span>
+                        <input
+                            type="text"
+                            className="glass-input block w-full pl-10 pr-4 py-2 text-sm placeholder:text-gray-400"
+                            placeholder="Search projects, tasks, people…"
+                        />
+                    </div>
                 </div>
             </div>
 
             {/* Right Side */}
-            <div className="flex items-center gap-4 ml-6">
+            <div className="flex items-center gap-2 sm:gap-4 ml-2 sm:ml-6">
                 {/* Notification Bell */}
                 <div className="relative" ref={notifRef}>
                     <button
@@ -107,7 +120,7 @@ export default function TopNav() {
                     </button>
 
                     {showNotifications && (
-                        <div className="absolute right-0 top-14 w-80 rounded-2xl py-2 z-30 animate-fade-in shadow-xl"
+                        <div className="absolute right-0 top-14 w-[calc(100vw-2rem)] sm:w-80 rounded-2xl py-2 z-30 animate-fade-in shadow-xl"
                              style={{
                                  background: 'rgba(255,255,255,0.95)',
                                  backdropFilter: 'blur(24px)',
@@ -173,7 +186,7 @@ export default function TopNav() {
 
                         <ChevronDown
                             size={14}
-                            className={`transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`}
+                            className={`transition-transform duration-200 hidden sm:block ${dropdownOpen ? 'rotate-180' : ''}`}
                             style={{ color: 'var(--text-muted)' }}
                         />
                     </button>

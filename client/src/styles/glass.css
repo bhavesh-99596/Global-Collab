@@ -2,6 +2,21 @@
    GLOBAL COLLAB — GLASSMORPHISM DESIGN SYSTEM
    ============================================================ */
 
+/* ── Prevent Horizontal Overflow on Mobile ─────────── */
+html, body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Responsive Modal ──────────────────────────────── */
+@media (max-width: 639px) {
+  .glass-modal {
+    padding: 1.25rem;
+    max-width: calc(100vw - 2rem);
+    border-radius: 16px;
+  }
+}
+
 /* ── Custom Properties ─────────────────────────────── */
 :root {
   /* Gradient Background */

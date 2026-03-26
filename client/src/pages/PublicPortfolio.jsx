@@ -76,8 +76,8 @@ export default function PublicPortfolio() {
                         </div>
 
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-900">{profile.fullName}</h1>
-                            <p className="text-xl text-blue-600 font-medium mt-1">{profile.role}</p>
+                            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{profile.fullName}</h1>
+                            <p className="text-lg sm:text-xl text-blue-600 font-medium mt-1">{profile.role}</p>
 
                             <div className="flex flex-wrap gap-4 mt-4 text-sm text-gray-600">
                                 <div className="flex items-center gap-1.5">
@@ -134,14 +134,14 @@ export default function PublicPortfolio() {
 
                     {/* Right Column - Projects */}
                     <div className="md:col-span-2 space-y-6">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                             <CheckCircle size={24} className="text-green-500" />
                             Featured Projects
                         </h2>
 
                         <div className="space-y-6">
                             {portfolioProjects.map((project) => (
-                                <div key={project.id} className="bg-white p-6 rounded-2xl shadow-sm border hover:shadow-md transition-shadow">
+                                <div key={project.id} className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border hover:shadow-md transition-shadow">
                                     <div className="flex justify-between items-start mb-3">
                                         <h3 className="text-xl font-bold text-gray-900">{project.name}</h3>
                                     </div>

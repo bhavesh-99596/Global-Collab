@@ -67,7 +67,7 @@ export default function Login() {
                 </div>
 
                 {/* Card */}
-                <div className="glass-modal p-8 animate-fade-up">
+                <div className="glass-modal p-6 sm:p-8 animate-fade-up">
                     <h2 className="text-xl font-bold mb-1 text-center" style={{ color: 'var(--text-heading)' }}>Welcome back</h2>
                     <p className="text-sm text-center mb-6" style={{ color: 'var(--text-muted)' }}>
                         Don't have an account?{' '}

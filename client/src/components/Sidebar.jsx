@@ -14,12 +14,13 @@ import {
     LogOut,
     Compass,
     Trophy,
-    Shield
+    Shield,
+    X
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { io } from 'socket.io-client';
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [hasUnreadMessage, setHasUnreadMessage] = React.useState(false);
@@ -86,76 +87,106 @@ export default function Sidebar() {
         navigate('/login');
     };
 
+    const handleNavClick = (item) => {
+        if (item.label === 'Messages') setHasUnreadMessage(false);
+        // Close sidebar on mobile after navigation
+        if (onClose) onClose();
+    };
+
     return (
-        <aside className="glass-sidebar fixed left-0 top-0 h-screen w-64 flex flex-col pt-6 z-20">
-            {/* Logo */}
-            <div className="px-5 mb-8 flex items-center gap-3">
-                <div className="icon-badge" style={{ background: 'var(--grad-primary)', boxShadow: '0 4px 14px rgba(99,102,241,0.4)' }}>
-                    <Sparkles className="text-white h-5 w-5" />
-                </div>
-                <div>
-                    <h1 className="text-base font-bold leading-tight" style={{ color: 'var(--text-heading)' }}>GlobalCollab</h1>
-                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Workspace</p>
-                </div>
-            </div>
+        <>
+            {/* Mobile backdrop overlay */}
+            {isOpen && (
+                <div
+                    className="fixed inset-0 bg-black/40 backdrop-blur-sm z-30 md:hidden transition-opacity"
+                    onClick={onClose}
+                />
+            )}
 
-            {/* Nav Items */}
-            <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
-                <p className="text-xs font-semibold uppercase tracking-wider px-3 mb-3" style={{ color: 'var(--text-light)' }}>Main Menu</p>
-        {navItems.map((item) => {
-            const isMessagesSection = item.label === 'Messages';
-            return (
-                <NavLink
-                    key={item.label}
-                    to={item.path}
-                    onClick={() => {
-                        if (isMessagesSection) setHasUnreadMessage(false);
-                    }}
-                    className={({ isActive }) =>
-                        `sidebar-nav-item ${isActive ? 'active' : ''}`
-                    }
-                >
-                    <div className="relative">
-                        <item.icon className="h-4 w-4 flex-shrink-0" />
-                        {isMessagesSection && hasUnreadMessage && (
-                            <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-pink-500 shadow-sm animate-pulse border border-white"></span>
-                        )}
+            {/* Sidebar */}
+            <aside className={`
+                glass-sidebar fixed left-0 top-0 h-screen w-64 flex flex-col pt-6 z-40
+                transition-transform duration-300 ease-in-out
+                ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+                md:translate-x-0 md:z-20
+            `}>
+                {/* Logo + Close Button */}
+                <div className="px-5 mb-8 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="icon-badge" style={{ background: 'var(--grad-primary)', boxShadow: '0 4px 14px rgba(99,102,241,0.4)' }}>
+                            <Sparkles className="text-white h-5 w-5" />
+                        </div>
+                        <div>
+                            <h1 className="text-base font-bold leading-tight" style={{ color: 'var(--text-heading)' }}>GlobalCollab</h1>
+                            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Workspace</p>
+                        </div>
                     </div>
-                    <span>{item.label}</span>
-                </NavLink>
-            );
-        })}
-            </nav>
-
-            {/* Divider */}
-            <div className="px-3">
-                <hr className="glass-divider" />
-            </div>
-
-            {/* User Card */}
-            <div className="p-3 pb-5">
-                <div className="glass-card-strong rounded-2xl p-3 flex items-center gap-3">
-                    <div className="avatar-gradient h-9 w-9 text-sm">
-                        {user?.username?.charAt(0).toUpperCase() || 'U'}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold truncate" style={{ color: 'var(--text-heading)' }}>
-                            {user?.full_name || user?.username || 'User'}
-                        </p>
-                        <p className="text-xs truncate" style={{ color: 'var(--text-muted)' }}>
-                            {user?.role || 'Developer'}
-                        </p>
-                    </div>
+                    {/* Close button - mobile only */}
                     <button
-                        onClick={handleLogout}
-                        title="Logout"
-                        className="p-1.5 rounded-xl hover:bg-red-50 transition-colors"
+                        onClick={onClose}
+                        className="p-1.5 rounded-xl hover:bg-white/50 transition-colors md:hidden"
                         style={{ color: 'var(--text-muted)' }}
                     >
-                        <LogOut className="h-4 w-4" />
+                        <X size={18} />
                     </button>
                 </div>
-            </div>
-        </aside>
+
+                {/* Nav Items */}
+                <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
+                    <p className="text-xs font-semibold uppercase tracking-wider px-3 mb-3" style={{ color: 'var(--text-light)' }}>Main Menu</p>
+                    {navItems.map((item) => {
+                        const isMessagesSection = item.label === 'Messages';
+                        return (
+                            <NavLink
+                                key={item.label}
+                                to={item.path}
+                                onClick={() => handleNavClick(item)}
+                                className={({ isActive }) =>
+                                    `sidebar-nav-item ${isActive ? 'active' : ''}`
+                                }
+                            >
+                                <div className="relative">
+                                    <item.icon className="h-4 w-4 flex-shrink-0" />
+                                    {isMessagesSection && hasUnreadMessage && (
+                                        <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-pink-500 shadow-sm animate-pulse border border-white"></span>
+                                    )}
+                                </div>
+                                <span>{item.label}</span>
+                            </NavLink>
+                        );
+                    })}
+                </nav>
+
+                {/* Divider */}
+                <div className="px-3">
+                    <hr className="glass-divider" />
+                </div>
+
+                {/* User Card */}
+                <div className="p-3 pb-5">
+                    <div className="glass-card-strong rounded-2xl p-3 flex items-center gap-3">
+                        <div className="avatar-gradient h-9 w-9 text-sm">
+                            {user?.username?.charAt(0).toUpperCase() || 'U'}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold truncate" style={{ color: 'var(--text-heading)' }}>
+                                {user?.full_name || user?.username || 'User'}
+                            </p>
+                            <p className="text-xs truncate" style={{ color: 'var(--text-muted)' }}>
+                                {user?.role || 'Developer'}
+                            </p>
+                        </div>
+                        <button
+                            onClick={handleLogout}
+                            title="Logout"
+                            className="p-1.5 rounded-xl hover:bg-red-50 transition-colors"
+                            style={{ color: 'var(--text-muted)' }}
+                        >
+                            <LogOut className="h-4 w-4" />
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </>
     );
 }

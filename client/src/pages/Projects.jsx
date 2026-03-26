@@ -78,21 +78,21 @@ export default function Projects() {
     return (
         <div className="space-y-6 animate-fade-in">
             {/* Header */}
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
                 <div>
-                    <h1 className="text-2xl font-bold" style={{ color: 'var(--text-heading)' }}>Projects</h1>
-                    <p className="text-sm mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                    <h1 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--text-heading)' }}>Projects</h1>
+                    <p className="text-xs sm:text-sm mt-0.5" style={{ color: 'var(--text-muted)' }}>
                         {projects.length} workspace{projects.length !== 1 ? 's' : ''} · Manage and collaborate
                     </p>
                 </div>
-                <button onClick={() => openModal()} className="btn-gradient">
+                <button onClick={() => openModal()} className="btn-gradient w-full sm:w-auto justify-center">
                     <Plus size={16} /> New Project
                 </button>
             </div>
 
             {/* Projects Grid */}
             {projects.length === 0 ? (
-                <div className="glass-card p-16 text-center">
+                <div className="glass-card p-8 sm:p-16 text-center">
                     <FolderOpen className="mx-auto mb-3 h-10 w-10" style={{ color: 'var(--text-light)' }} />
                     <h3 className="font-semibold mb-1" style={{ color: 'var(--text-heading)' }}>No projects yet</h3>
                     <p className="text-sm mb-4" style={{ color: 'var(--text-muted)' }}>Create your first project to get started.</p>

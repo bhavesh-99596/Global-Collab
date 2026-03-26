@@ -141,8 +141,8 @@ export default function Settings() {
         <div className="space-y-8 max-w-5xl mx-auto animate-fade-in">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold" style={{ color: 'var(--text-heading)' }}>Settings & Billing</h1>
-                <p className="text-sm mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                <h1 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--text-heading)' }}>Settings & Billing</h1>
+                <p className="text-xs sm:text-sm mt-0.5" style={{ color: 'var(--text-muted)' }}>
                     Managed your account preferences and subscription plans.
                 </p>
             </div>
@@ -303,7 +303,7 @@ export default function Settings() {
                                             (Use {paymentIntent.data.pointsToUse} pts)
                                         </span>
                                     </div>
-                                    <div className="flex gap-3 mt-4">
+                                    <div className="flex flex-col sm:flex-row gap-3 mt-4">
                                         <button 
                                             onClick={() => handleCheckout(true)}
                                             disabled={upgrading}

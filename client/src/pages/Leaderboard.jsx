@@ -86,7 +86,7 @@ export default function Leaderboard() {
         <div className="animate-fade-in text-slate-900 mx-auto max-w-6xl pb-10">
             {/* Header */}
             <div className="flex justify-center mb-8 mt-4">
-                <h1 className="text-3xl font-bold tracking-tight text-slate-800">Leaderboard</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-800">Leaderboard</h1>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 items-start">
@@ -95,10 +95,10 @@ export default function Leaderboard() {
                 <div className="space-y-8">
                     
                     {/* 3D Podium Area */}
-                    <div className="flex justify-center items-end h-[240px] gap-2 mb-8">
+                    <div className="flex justify-center items-end h-[180px] sm:h-[240px] gap-1 sm:gap-2 mb-6 sm:mb-8">
                         
                         {/* 2nd Place */}
-                        <div className="flex flex-col items-center w-28">
+                        <div className="flex flex-col items-center w-20 sm:w-28">
                             <div className="relative mb-4 flex flex-col items-center">
                                 <div className="w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-xl text-white shadow-sm border-2 border-white"
                                      style={{ background: `linear-gradient(135deg, ${LEVEL_COLORS[top3[0]?.level]}, ${LEVEL_COLORS[top3[0]?.level]}dd)` }}>
@@ -107,38 +107,38 @@ export default function Leaderboard() {
                                 <div className="text-xs font-semibold text-center truncate max-w-full mb-1 text-slate-700">{top3[0]?.fullName || top3[0]?.username}</div>
                                 <div className="text-xs font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">{getDisplayScore(top3[0])} Pts</div>
                             </div>
-                            <div className="w-full h-[110px] bg-indigo-300 rounded-t-xl flex items-center justify-center text-4xl font-extrabold text-white/90 shadow-inner z-10 border-t border-x border-indigo-400">
+                            <div className="w-full h-[80px] sm:h-[110px] bg-indigo-300 rounded-t-xl flex items-center justify-center text-3xl sm:text-4xl font-extrabold text-white/90 shadow-inner z-10 border-t border-x border-indigo-400">
                                 2
                             </div>
                         </div>
 
                         {/* 1st Place */}
-                        <div className="flex flex-col items-center w-32">
-                            <div className="relative mb-5 flex flex-col items-center">
-                                <Crown size={28} className="absolute -top-6 text-amber-400 drop-shadow-sm" fill="#fbbf24" stroke="#d97706" />
-                                <div className="w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-2xl text-white shadow-md border-4 border-amber-300 z-10"
+                        <div className="flex flex-col items-center w-24 sm:w-32">
+                            <div className="relative mb-4 sm:mb-5 flex flex-col items-center">
+                                <Crown size={24} className="absolute -top-5 sm:-top-6 text-amber-400 drop-shadow-sm" fill="#fbbf24" stroke="#d97706" />
+                                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center font-bold text-xl sm:text-2xl text-white shadow-md border-4 border-amber-300 z-10"
                                      style={{ background: `linear-gradient(135deg, ${LEVEL_COLORS[top3[1]?.level]}, ${LEVEL_COLORS[top3[1]?.level]}dd)` }}>
                                     {(top3[1]?.fullName || top3[1]?.username).charAt(0).toUpperCase()}
                                 </div>
                                 <div className="text-sm font-bold text-center truncate max-w-full my-1 text-slate-800">{top3[1]?.fullName || top3[1]?.username}</div>
                                 <div className="text-xs font-bold bg-amber-50 text-amber-600 border border-amber-200 px-3 py-1 rounded-full shadow-sm">{getDisplayScore(top3[1])} Pts</div>
                             </div>
-                            <div className="w-full h-[150px] bg-indigo-400 rounded-t-2xl flex items-center justify-center text-5xl font-extrabold text-white shadow-inner z-20 border-t border-x border-indigo-500 relative">
+                            <div className="w-full h-[110px] sm:h-[150px] bg-indigo-400 rounded-t-2xl flex items-center justify-center text-4xl sm:text-5xl font-extrabold text-white shadow-inner z-20 border-t border-x border-indigo-500 relative">
                                 1
                             </div>
                         </div>
 
                         {/* 3rd Place */}
-                        <div className="flex flex-col items-center w-28">
-                            <div className="relative mb-4 flex flex-col items-center">
-                                <div className="w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-xl text-white shadow-sm border-2 border-white"
+                        <div className="flex flex-col items-center w-20 sm:w-28">
+                            <div className="relative mb-3 sm:mb-4 flex flex-col items-center">
+                                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center font-bold text-lg sm:text-xl text-white shadow-sm border-2 border-white"
                                      style={{ background: `linear-gradient(135deg, ${LEVEL_COLORS[top3[2]?.level]}, ${LEVEL_COLORS[top3[2]?.level]}dd)` }}>
                                     {(top3[2]?.fullName || top3[2]?.username).charAt(0).toUpperCase()}
                                 </div>
                                 <div className="text-xs font-semibold text-center truncate max-w-full mb-1 text-slate-700">{top3[2]?.fullName || top3[2]?.username}</div>
                                 <div className="text-xs font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">{getDisplayScore(top3[2])} Pts</div>
                             </div>
-                            <div className="w-full h-[90px] bg-indigo-200 rounded-t-xl flex items-center justify-center text-4xl font-extrabold text-white/80 shadow-inner z-0 border-t border-x border-indigo-300">
+                            <div className="w-full h-[65px] sm:h-[90px] bg-indigo-200 rounded-t-xl flex items-center justify-center text-3xl sm:text-4xl font-extrabold text-white/80 shadow-inner z-0 border-t border-x border-indigo-300">
                                 3
                             </div>
                         </div>

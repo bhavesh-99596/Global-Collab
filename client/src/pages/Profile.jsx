@@ -108,12 +108,12 @@ export default function Profile() {
     return (
         <div className="space-y-6 max-w-5xl mx-auto animate-fade-in">
             {/* Header */}
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
                 <div>
-                    <h1 className="text-2xl font-bold" style={{ color: 'var(--text-heading)' }}>Developer Profile</h1>
-                    <p className="text-sm mt-0.5" style={{ color: 'var(--text-muted)' }}>Manage your public presence and stats.</p>
+                    <h1 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--text-heading)' }}>Developer Profile</h1>
+                    <p className="text-xs sm:text-sm mt-0.5" style={{ color: 'var(--text-muted)' }}>Manage your public presence and stats.</p>
                 </div>
-                <button onClick={() => setIsEditing(true)} className="btn-glass"><Edit3 size={14} /> Edit Profile</button>
+                <button onClick={() => setIsEditing(true)} className="btn-glass w-full sm:w-auto justify-center"><Edit3 size={14} /> Edit Profile</button>
             </div>
 
             {/* Edit Modal */}
@@ -138,7 +138,7 @@ export default function Profile() {
                                 onChange={e => setEditForm({ ...editForm, bio: e.target.value })}
                                 className={`${inputClass} resize-none`} />
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {['github', 'twitter'].map(k => (
                                 <div key={k}>
                                     <label className={labelClass} style={{ color: 'var(--text-muted)' }}>{k.charAt(0).toUpperCase() + k.slice(1)}</label>
@@ -255,7 +255,7 @@ export default function Profile() {
                     </div>
 
                     {/* Stats */}
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         {STAT_ICONS.map(({ key, icon: Icon, gradient, label }) => (
                             <div key={key} className="glass-card p-4 text-center">
                                 <div className="icon-badge h-10 w-10 mx-auto mb-2 rounded-2xl" style={{ background: gradient }}>
