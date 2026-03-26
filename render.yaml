@@ -2,7 +2,7 @@ services:
   - type: web
     name: global-collab-server
     env: node
-    buildCommand: npm install && npm run build
+    buildCommand: cd server && npm install && cd ../client && npm install && npm run build
     startCommand: node server/db/migrate.js && node server/index.js
     envVars:
       - key: NODE_ENV
