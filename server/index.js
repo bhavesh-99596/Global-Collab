@@ -35,7 +35,10 @@ io.on('connection', (socket) => {
     });
 });
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URL || '*',
+  credentials: true
+}));
 app.use(express.json());
 
 // Logging Middleware (Step 6)
@@ -103,13 +106,8 @@ cron.schedule('0 0 1 * *', () => {
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve physical files
 
-// Production Build Serving (Step 2)
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../dist')));
-  app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../dist', 'index.html')));
-} else {
-  app.get('/', (req, res) => res.send('API Running'));
-}
+// Root test route
+app.get('/', (req, res) => res.json({ status: 'ok', message: 'API running...' }));
 
 // Global Error Handler
 const errorHandler = require('./middleware/errorHandler');
