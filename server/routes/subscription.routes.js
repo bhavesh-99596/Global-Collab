@@ -8,6 +8,7 @@ router.get('/plans', subscriptionController.getPlans);
 router.post('/upgrade', subscriptionController.upgradeSubscription); // legacy simple upgrade
 
 // New Payment Flow Endpoints
+router.get('/payment/config', paymentController.getConfig);
 router.post('/payment/apply-discount', paymentController.applyDiscount);
 router.post('/payment/create-order', paymentController.createOrder);
 router.post('/payment/verify', paymentController.verifyPayment);

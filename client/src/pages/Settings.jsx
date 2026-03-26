@@ -70,7 +70,8 @@ export default function Settings() {
             const { plan } = paymentIntent;
             const res = await api.post('/subscription/payment/create-order', { plan, usePoints });
             
-            if (res.success && res.skipPayment) {
+            // res is already response.data due to Axios interceptor
+            if (res.skipPayment) {
                 alert(res.message || 'Plan upgraded successfully using points!');
                 setPaymentIntent(null);
                 setCurrentPlan(plan);
@@ -79,8 +80,19 @@ export default function Settings() {
             }
 
             const order = res.data;
+            if (!order || !order.id) {
+                throw new Error('Failed to create payment order. Please try again.');
+            }
+
+            // Fetch Razorpay key from backend
+            const configRes = await api.get('/subscription/payment/config');
+            const razorpayKey = configRes.key;
+            if (!razorpayKey) {
+                throw new Error('Payment gateway configuration error.');
+            }
+
             const options = {
-                key: import.meta.env.VITE_RAZORPAY_KEY || 'rzp_test_mock_id',
+                key: razorpayKey,
                 amount: order.amount,
                 currency: order.currency,
                 name: 'Global Collab',
@@ -95,29 +107,51 @@ export default function Settings() {
                             plan
                         });
                         if (verifyRes.success) {
-                            alert('Payment successful!');
+                            alert('Payment successful! Your plan has been upgraded.');
                             setPaymentIntent(null);
                             setCurrentPlan(plan);
                             window.location.reload();
                         }
                     } catch (e) {
-                        alert('Payment verification failed.');
+                        console.error('Payment verification error:', e);
+                        alert('Payment verification failed. If money was deducted, it will be refunded automatically.');
+                    }
+                },
+                modal: {
+                    ondismiss: () => {
+                        setUpgrading(false);
                     }
                 },
                 theme: { color: '#6366f1' }
             };
 
-            const script = document.createElement('script');
-            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-            script.onload = () => {
+            // Load Razorpay script only once
+            const openCheckout = () => {
                 const rzp = new window.Razorpay(options);
+                rzp.on('payment.failed', (response) => {
+                    console.error('Payment failed:', response.error);
+                    alert(`Payment failed: ${response.error.description || 'Something went wrong.'}`);
+                    setUpgrading(false);
+                });
                 rzp.open();
             };
-            document.body.appendChild(script);
+
+            if (window.Razorpay) {
+                openCheckout();
+            } else {
+                const script = document.createElement('script');
+                script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+                script.onload = openCheckout;
+                script.onerror = () => {
+                    alert('Failed to load payment gateway. Please check your network and try again.');
+                    setUpgrading(false);
+                };
+                document.body.appendChild(script);
+            }
 
         } catch (e) {
-            console.error(e);
-            alert('Checkout failed.');
+            console.error('Checkout error:', e);
+            alert(e.message || 'Checkout failed. Please try again.');
         } finally {
             setUpgrading(false);
         }

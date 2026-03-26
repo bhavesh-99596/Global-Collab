@@ -5,13 +5,24 @@ const pointsService = require('../services/PointsService');
 const subscriptionService = require('../services/SubscriptionService');
 
 // Initialize Razorpay
-// Note: In production these should come from process.env
+const rzpKeyId = process.env.RAZORPAY_KEY_ID;
+const rzpKeySecret = process.env.RAZORPAY_KEY_SECRET;
+
+if (!rzpKeyId || !rzpKeySecret) {
+    console.error('WARNING: RAZORPAY_KEY_ID or RAZORPAY_KEY_SECRET is not set in environment variables!');
+}
+
 const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_mock_id',
-    key_secret: process.env.RAZORPAY_KEY_SECRET || 'rzp_test_mock_secret',
+    key_id: rzpKeyId || 'rzp_test_mock_id',
+    key_secret: rzpKeySecret || 'rzp_test_mock_secret',
 });
 
 class PaymentController {
+    // Returns the Razorpay publishable key to the frontend
+    async getConfig(req, res) {
+        res.json({ success: true, key: process.env.RAZORPAY_KEY_ID });
+    }
+
     async applyDiscount(req, res, next) {
         try {
             const { plan } = req.body;
@@ -96,7 +107,11 @@ class PaymentController {
                 receipt: `rcpt_order_${Math.random().toString(36).substring(7)}`,
             };
 
+            console.log('Creating Razorpay order with options:', JSON.stringify(options));
+            console.log('Using Razorpay key_id:', rzpKeyId ? `${rzpKeyId.substring(0, 12)}...` : 'NOT SET');
+
             const order = await razorpay.orders.create(options);
+            console.log('Razorpay order created successfully:', order.id);
 
             // Save pending payment record
             await db.query(
@@ -106,11 +121,14 @@ class PaymentController {
             );
 
             res.json({ success: true, data: order });
-        } catch (err) { 
+        } catch (err) {
+            console.error('Razorpay createOrder error:', err.message, err.statusCode, err.error);
             if (err.statusCode === 401) {
                 // Prevent Razorpay credential failures from triggering global frontend token invalidation
-                err.statusCode = 500;
-                err.message = 'Payment Gateway Error: Invalid internal credentials';
+                return res.status(500).json({ 
+                    success: false, 
+                    message: 'Payment gateway credentials are invalid. Please contact support.' 
+                });
             }
             next(err); 
         }
