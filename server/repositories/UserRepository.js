@@ -14,13 +14,13 @@ class UserRepository {
     }
 
     async findById(id) {
-        const query = 'SELECT id, username, email, full_name, role, bio, location, website, github, twitter, reputation, skills, created_at FROM users WHERE id = $1';
+        const query = 'SELECT id, username, email, full_name, role, bio, location, website, github, twitter, reputation, skills, gender, created_at FROM users WHERE id = $1';
         const result = await db.query(query, [id]);
         return result.rows[0];
     }
 
     async findByUsername(username) {
-        const query = 'SELECT id, username, bio, skills, reputation, full_name, location, website, github, twitter FROM users WHERE username = $1';
+        const query = 'SELECT id, username, bio, skills, reputation, full_name, location, website, github, twitter, gender FROM users WHERE username = $1';
         const result = await db.query(query, [username]);
         return result.rows[0];
     }
@@ -36,7 +36,7 @@ class UserRepository {
     }
 
     async updateUser(id, updateFields, updateValues) {
-        const query = `UPDATE users SET ${updateFields.join(', ')} WHERE id = $${updateValues.length} RETURNING id, username, bio, skills, reputation, full_name, location, website, github, twitter`;
+        const query = `UPDATE users SET ${updateFields.join(', ')} WHERE id = $${updateValues.length} RETURNING id, username, bio, skills, reputation, full_name, location, website, github, twitter, gender`;
         const result = await db.query(query, updateValues);
         return result.rows[0];
     }

@@ -28,7 +28,7 @@ class UserService {
         const updateValues = [];
         let paramIndex = 1;
 
-        const allowedFields = ['bio', 'skills', 'location', 'full_name', 'website', 'github', 'twitter'];
+        const allowedFields = ['bio', 'skills', 'location', 'full_name', 'website', 'github', 'twitter', 'gender'];
 
         for (const field of allowedFields) {
             if (data[field] !== undefined) {
@@ -65,6 +65,18 @@ class UserService {
             err.isOperational = true;
             throw err;
         }
+
+        // Fetch their public/featured projects (limit to 3 for now, like the static design)
+        const projectsResult = await db.query(
+            "SELECT id, name, description, tech_stack as technologies, link FROM projects WHERE owner_id = $1 ORDER BY created_at DESC LIMIT 3",
+            [user.id]
+        );
+
+        user.portfolioProjects = projectsResult.rows.map(p => ({
+            ...p,
+            technologies: Array.isArray(p.technologies) ? p.technologies : (p.technologies ? p.technologies.split(',') : [])
+        }));
+
         return user;
     }
 

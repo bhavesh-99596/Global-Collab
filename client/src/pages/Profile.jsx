@@ -51,13 +51,15 @@ export default function Profile() {
                     reputation: u.reputation || 0,
                     completedTasks: u.completed_tasks || 0,
                     projectsContributed: projRes?.data?.length || 0,
-                    skills: u.skills || []
+                    skills: u.skills || [],
+                    gender: u.gender || ''
                 });
                 setEditForm({
                     full_name: u.full_name || '', bio: u.bio || '',
                     location: u.location || '', website: u.website || '',
                     github: u.github || '', twitter: u.twitter || '',
-                    skills: (u.skills || []).join(', ')
+                    skills: (u.skills || []).join(', '),
+                    gender: u.gender || ''
                 });
             }
             if (projRes.data) {
@@ -137,6 +139,17 @@ export default function Profile() {
                             <textarea value={editForm.bio} rows={3}
                                 onChange={e => setEditForm({ ...editForm, bio: e.target.value })}
                                 className={`${inputClass} resize-none`} />
+                        </div>
+                        <div>
+                            <label className={labelClass} style={{ color: 'var(--text-muted)' }}>Gender</label>
+                            <select value={editForm.gender} 
+                                onChange={e => setEditForm({ ...editForm, gender: e.target.value })}
+                                className={inputClass} style={{ cursor: 'pointer' }}>
+                                <option value="">Prefer not to say</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {['github', 'twitter'].map(k => (
