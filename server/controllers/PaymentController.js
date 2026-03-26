@@ -100,11 +100,14 @@ class PaymentController {
                 }
             }
 
+            const offerId = 'offer_SVxD74tOpTxEmz'; // Hardcoded offer as requested
+
             // Create Razorpay order
             const options = {
                 amount: finalPrice * 100, // paisa
                 currency: 'INR',
                 receipt: `rcpt_order_${Math.random().toString(36).substring(7)}`,
+                offers: [offerId] // Include offer_id for Razorpay to apply it at checkout
             };
 
             console.log('Creating Razorpay order with options:', JSON.stringify(options));
@@ -115,9 +118,9 @@ class PaymentController {
 
             // Save pending payment record
             await db.query(
-                `INSERT INTO payments (user_id, razorpay_order_id, amount, points_used, discount_percent, status)
-                 VALUES ($1, $2, $3, $4, $5, 'created')`,
-                [req.user.id, order.id, finalPrice, pointsUsed, discountPercent]
+                `INSERT INTO payments (user_id, razorpay_order_id, amount, currency, points_used, discount_percent, status, plan_id, offer_id)
+                 VALUES ($1, $2, $3, 'INR', $4, $5, 'created', $6, $7)`,
+                [req.user.id, order.id, finalPrice, pointsUsed, discountPercent, plan, offerId]
             );
 
             res.json({ success: true, data: order });

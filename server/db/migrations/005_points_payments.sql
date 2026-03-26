@@ -32,5 +32,7 @@ CREATE TABLE IF NOT EXISTS payments (
     points_used INTEGER DEFAULT 0,
     discount_percent INTEGER DEFAULT 0,
     status VARCHAR(50) DEFAULT 'created',
+    plan_id VARCHAR(50),
+    offer_id VARCHAR(100),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
