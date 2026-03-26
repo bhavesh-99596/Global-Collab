@@ -1,0 +1,15 @@
+# Use Node.js LTS
+FROM node:18-alpine
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install dependencies separately to leverage Docker cache
+COPY package*.json ./
+RUN npm install --production
+
+# Bundle app source
+COPY server/ ./server/
+
+# Ensure migrate script is executable (if needed) and start
+CMD ["sh", "-c", "node server/db/migrate.js && node server/index.js"]

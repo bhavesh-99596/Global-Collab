@@ -1,0 +1,73 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+crash.log
+startup.log
+build.log
+err.log
+error.log
+error.txt
+error2.txt
+error3.txt
+out.txt
+lint_output.txt
+migration_error.txt
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.local
+
+# Temp & test scripts
+server/test_db.js
+server/test-db.js
+server/test_profile.js
+server/test_task_update.js
+server/e2e_api_test.js
+server/load_test.js
+server/purge_test_users.js
+server/db_schema_test.js
+server/check_tables.js
+server/alter_users.js
+server/cols.json
+server/cols_users.json
+server/db/audit_schema.js
+server/db/check_tables.js
+server/db/force_fix.js
+server/db/force_subs.js
+server/db/test_plans.js
+server/db/setup_missing.js
+client/test_db.js
+eslint.json
+eslint_report.json
+
+# Uploads (user-generated content)
+server/uploads/*
+!server/uploads/.gitkeep
