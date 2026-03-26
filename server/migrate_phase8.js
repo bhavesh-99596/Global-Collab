@@ -27,7 +27,7 @@ async function runMigration() {
             {
                 id: 'pro',
                 name: 'Pro',
-                price_inr: 999,
+                price_inr: 10,
                 billing_type: 'monthly',
                 project_limit: null, // Unlimited
                 member_limit: 5,
